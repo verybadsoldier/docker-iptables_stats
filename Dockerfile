@@ -1,26 +1,32 @@
-FROM python:3.6
-#FROM python:3.6-alpine
+FROM python:3.6-alpine
 
 LABEL maintainer="verybadsoldier"
-LABEL version="0.9.4"
+LABEL version="0.9.5"
 LABEL description="Gather statistics from iptables and ipset and publish via MQTT"
 LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 
 
-#RUN apk add build-base && \
-#    apk add iptables && \
-#    pip install iptables_stats && \
-#    apk del build-base && \
-#    rm -rf /var/cache/apk/*
+RUN apk add build-base && \
+    apk add libc6-compat && \
+    apk add iptables && \
+    apk add ipset && \
+    pip install iptables_stats && \
+    apk del build-base && \
+    rm -rf /var/cache/apk/*
 
-RUN apt-get update -y && apt-get install -y gcc && \
-    apt-get install -y python3 && apt-get install -y python3-pip && \
-    apt-get install -y iptables && apt-get install -y ipset && \
-    pip3 install iptables_stats && \
-    apt-get remove --purge -y gcc && \
-    apt-get autoremove -y && \ 
-    rm -rf /var/lib/apt/lists/*
+# all the following is needed cause of problems with ldconfig in alpine
+# refer to: https://github.com/docker-library/python/issues/111
+# python-iptables heavily relies on find_library()
+#Run ln -s /usr/lib/libip4tc.so.0 /usr/lib/libip4tc.so && \
+#    ln -s /usr/lib/libip6tc.so.0 /usr/lib/libip6tc.so
 
-#COPY run_airsensor.sh /airsensor/run_airsensor.sh
+# replace original ldconfig with a fake ldconfig with prints a faked cache
+# this is called by python's find_library()
+COPY ldconfig /sbin/ldconfig
+
+# some vars to also support loading correct dynamic libraries
+ENV XTABLES_LIBDIR=/usr/lib
+ENV PYTHON_IPTABLES_XTABLES_VERSION=12
+ENV IPTABLES_LIBDIR=/usr/lib
 
 CMD iptables_stats
