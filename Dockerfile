@@ -1,7 +1,7 @@
 FROM python:3.6-alpine
 
 LABEL maintainer="verybadsoldier"
-LABEL version="0.9.5"
+LABEL version="0.9.11"
 LABEL description="Gather statistics from iptables and ipset and publish via MQTT"
 LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 
@@ -10,7 +10,7 @@ RUN apk add build-base && \
     apk add libc6-compat && \
     apk add iptables && \
     apk add ipset && \
-    pip install iptables_stats==0.9.10 && \
+    pip install iptables_stats==0.9.11 && \
     apk del build-base && \
     rm -rf /var/cache/apk/*
 
