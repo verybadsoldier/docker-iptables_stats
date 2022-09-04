@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo '4 libs found in cache '/etc/ld.so.cache' \
-        libip4tc.so (libc6,x86-64) => /usr/lib/libip4tc.so \
-        libip6tc.so (libc6,x86-64) => /usr/lib/libip6tc.so \
-        libc.so (libc6,x86-64) => /usr/lib/libc.so.6 \
-        libxtables.so (libc6,x86-64) => /usr/lib/libxtables.so.12'

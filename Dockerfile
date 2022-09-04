@@ -1,7 +1,6 @@
 FROM python:3.7.13-alpine3.16
 
 LABEL maintainer="verybadsoldier"
-LABEL version="0.9.12"
 LABEL description="Gather statistics from iptables and ipset and publish via MQTT"
 LABEL vcs-url="https://github.com/verybadsoldier/docker-iptables_stats"
 
