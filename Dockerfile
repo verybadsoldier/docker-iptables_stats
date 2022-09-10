@@ -10,7 +10,7 @@ RUN apk add build-base && \
     apk add iptables && \
     apk add iptables-dev && \
     apk add ipset && \
-    pip install iptables_stats==0.9.12 && \
+    pip install iptables_stats==0.9.13 && \
     apk del build-base && \
     rm -rf /var/cache/apk/*
 
